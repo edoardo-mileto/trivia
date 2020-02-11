@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <link href=" .\index.css" rel="stylesheet" type="text/css">
+        <title>TRIVIA</title>
+        <meta charset="utf-8">
+        <script>
+            var username;
+
+
+            var num_correct = 0;
+            var num_incorrect = 0;
+            function testLogin() {
+
+                var http = new XMLHttpRequest();
+                http.onreadystatechange = function()
+                {
+                if(this.readyState == 4 && this.status == 200){
+                    alert(this.responseText);
+                    response = JSON.parse(this.responseText);
+                    alert(response.code);
+                    if (response.code == 1) {
+                        username = response.username;
+
+                        loadQuiz();
+                        DisplayPlayerStatus();
+                    }
+                    else{
+                        alert(response.description);
+                        document.location.href="./login.php"
+                    }
+                }
+            };
+
+            
+            
+            http.open('POST','../poorbook/api/testlogin.php',false);
+            http.send();
+
+            }
+
+
+            function shuffleQuestions(questions){
+                var i;
+                var j;
+                var tmp;
+                for(i = questions.length -1; i > 0; i--){
+                    j = Math.floor(Math.random() * (i+1));
+                    tmp = questions[i];
+                    questions[i] = questions[j];
+                    questions[j] = tmp;
+                }
+
+            }
+            function DisplayPlayerStatus() {
+                document.getElementById("ps_username").innerHTML =
+                    "Ciao " + username;
+                document.getElementById("ps_correct").innerHTML =
+                    "correct answers:" + num_correct;
+                document.getElementById("ps_incorrect").innerHTML =
+                    "incorrect answers:" + num_incorrect;
+            }
+            
+            function testAnswer(){
+                var quiz = document.querySelector("input[name = answer]:checked").value;
+                if(quiz == "False"){
+                    num_incorrect++;
+                }else{
+                    num_correct++;
+                }
+                alert(quiz);
+                DisplayPlayerStatus();
+
+                if (num_incorrect + num_correct == 10) {
+                    alert("hai finito!");
+                }else{
+                loadQuiz();
+                }
+            }
+
+            function loadQuiz(){
+
+                
+
+                    var xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function() {
+
+                        if(this.readyState == 4 && this.status == 200){
+                            document.getElementById("quiz").innerHTML = "<p><strong>" + this.responseText + "</strong><p>";
+
+                            var quiz = JSON.parse(this.responseText);//trasforma JSON in un oggetto
+
+                            var question = quiz.results[0];//estrae la domanda dall'oggetto
+
+                            var quizHTML = "<p id ='question'>Category: " + question.category + "<br>" +
+                                                "<em>" + question.question + "</em>" + 
+                                            "</p>";
+
+
+                            if(question.correct_answer == "True" || question.incorrect_answers[0] == "True"){
+
+                                if(question.correct_answer == "True"){
+                                    var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>"];
+                                    radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='False'><label>" + question.incorrect_answers[0] + "</label><br></div>");
+                                }else{
+                                    var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='False'><label>" + question.incorrect_answers[0] + "</label><br></div>"];
+                                    radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>");
+                                }
+
+                            }else{
+                                var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>"];
+
+                                var i;
+                                for(i=0; i < question.incorrect_answers.length; i++){
+                                    radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='False'><label>" + question.incorrect_answers[i] + "</label><br></div>");
+                                }
+                                
+                                shuffleQuestions(radioHTML);                            
+                            }
+     
+
+                            
+
+                            quizHTML += "<form id='answers'>";
+
+                            for(i=0; i < radioHTML.length; i++){
+                                
+                                quizHTML += radioHTML[i];
+
+                            }
+                            quizHTML += "</form>" ;
+
+                            document.getElementById("quiz").innerHTML += quizHTML;
+                            document.getElementById("quiz").innerHTML += "<button id='btn' type='button' onclick='testAnswer()'>Invia</button>";
+
+                        }
+                        else if(this.readyState == 4 && this.status == 404){
+                            document.getElementById("quiz").innerHTML = "non va";
+                        }
+                    };
+
+                    xhttp.open("GET", "https://opentdb.com/api.php?amount=1&difficulty=easy", true);
+                    xhttp.send();
+                }
+            
+
+        </script>
+    </head>
+
+    <body onload="testLogin()">
+        <div id="ps_username"></div>
+        <div id="ps_correct">0</div>
+        <div id="ps_incorrect">0</div>
+        <div id="quiz">Questo è il testo da cambiare</div>
+    </body>
+</html>
