@@ -12,9 +12,10 @@ if (array_key_exists("username", $_SESSION)) {
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Trivia - Login with Poorbook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="login.css" rel="stylesheet" type="text/css">
-    <title>Trivia Login</title>
+    <link rel="icon" href="assets/img/trivia-ico_2.png">
     <script>
         function testLogin()
         {

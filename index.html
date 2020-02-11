@@ -2,8 +2,11 @@
 <html>
     <head>
         <link href=" .\index.css" rel="stylesheet" type="text/css">
-        <title>TRIVIA</title>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+        <link rel="stylesheet" href="assets/css/admin.css"/>
+        <title>Trivia - quiz</title>
         <meta charset="utf-8">
+        <link rel="icon" href="assets/img/trivia-ico_2.png">
         <script>
             var username;
 
@@ -59,6 +62,8 @@
                     "correct answers:" + num_correct;
                 document.getElementById("ps_incorrect").innerHTML =
                     "incorrect answers:" + num_incorrect;
+                document.getElementById("header_username").innerHTML =
+                    "" + username;
             }
             
             function testAnswer(){
@@ -149,6 +154,26 @@
     </head>
 
     <body onload="testLogin()">
+        <div class="header no-shadow">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo">
+                            <h1> <a href="index.html" title="Torna alla home di Trivia">Trivia - by Poorbook</a></h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ul class="header-menu pull-right">
+                            <li><a href="#" class=""> Logout </a></li>
+                            <li><a href="#" class="" id="header_username"></a></li>
+                            <li><a href="../poorbook" class=""> Poorbook - home </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
         <div id="ps_username"></div>
         <div id="ps_correct">0</div>
         <div id="ps_incorrect">0</div>
