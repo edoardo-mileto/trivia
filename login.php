@@ -22,23 +22,22 @@ if (array_key_exists("username", $_SESSION)) {
             var http = new XMLHttpRequest();
             http.onreadystatechange = function()
             {
-                alert(this.readyState + " - " + this.status );
+                //alert(this.readyState + " - " + this.status );
                 if(this.readyState == 4 && this.status == 200){
-                    alert(this.responseText);
+                    //alert(this.responseText);
                     response = JSON.parse(this.responseText);
-                    alert(response.code);
+                    //alert(response.code);
                     if(response.code==1){
                         document.location.href="./index.html";
-                    }
-                    else{
+                    }else{
                         alert(response.description);
                     }
                 }
             };
 
             
-            var un =document.getElementById("username").value;
-            var pw =document.getElementById("password").value;
+            var un = document.getElementById("username").value;
+            var pw = document.getElementById("password").value;
             var param = "email=" + un + "&password=" + pw;
 
             http.open('POST','../poorbook/api/login.php',false);

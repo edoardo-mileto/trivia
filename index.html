@@ -9,19 +9,18 @@
         <link rel="icon" href="assets/img/trivia-ico_2.png">
         <script>
             var username;
-
-
             var num_correct = 0;
             var num_incorrect = 0;
+
             function testLogin() {
 
                 var http = new XMLHttpRequest();
                 http.onreadystatechange = function()
                 {
                 if(this.readyState == 4 && this.status == 200){
-                    alert(this.responseText);
+                    //alert(this.responseText);
                     response = JSON.parse(this.responseText);
-                    alert(response.code);
+                    //alert(response.code);
                     if (response.code == 1) {
                         username = response.username;
 
@@ -29,15 +28,15 @@
                         DisplayPlayerStatus();
                     }
                     else{
-                        alert(response.description);
-                        document.location.href="./login.php"
+                        alert(response.description + "\nredirecting to login page");
+                        document.location.href="./login.php";
                     }
                 }
             };
 
             
             
-            http.open('POST','../poorbook/api/testlogin.php',false);
+            http.open('POST','../poorbook/api/login.php',false);
             http.send();
 
             }
