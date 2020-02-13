@@ -67,10 +67,13 @@
             
             function testAnswer(){
                 var quiz = document.querySelector("input[name = answer]:checked").value;
+                var quiz_label = document.querySelector("label[for='answer']");
                 if(quiz == "False"){
                     num_incorrect++;
+                    quiz = "Sbagliato!\nLa risposta corretta era " + quiz_label.textContent.trim();
                 }else{
                     num_correct++;
+                    quiz = "Corretto!"
                 }
                 alert(quiz);
                 DisplayPlayerStatus();
@@ -91,7 +94,7 @@
                     xhttp.onreadystatechange = function() {
 
                         if(this.readyState == 4 && this.status == 200){
-                            document.getElementById("quiz").innerHTML = "<p><strong>" + this.responseText + "</strong><p>";
+                            //document.getElementById("quiz").innerHTML = "<p><strong>" + this.responseText + "</strong><p>";
 
                             var quiz = JSON.parse(this.responseText);//trasforma JSON in un oggetto
 
@@ -105,15 +108,15 @@
                             if(question.correct_answer == "True" || question.incorrect_answers[0] == "True"){
 
                                 if(question.correct_answer == "True"){
-                                    var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>"];
+                                    var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label for='answer'>" + question.correct_answer + "</label><br></div>"];
                                     radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='False'><label>" + question.incorrect_answers[0] + "</label><br></div>");
                                 }else{
                                     var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='False'><label>" + question.incorrect_answers[0] + "</label><br></div>"];
-                                    radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>");
+                                    radioHTML.push("<div id='risp'><input type ='radio' name='answer' value='True'><label for='answer'>" + question.correct_answer + "</label><br></div>");
                                 }
 
                             }else{
-                                var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label>" + question.correct_answer + "</label><br></div>"];
+                                var radioHTML = ["<div id='risp'><input type ='radio' name='answer' value='True'><label for='answer'>" + question.correct_answer + "</label><br></div>"];
 
                                 var i;
                                 for(i=0; i < question.incorrect_answers.length; i++){
@@ -135,7 +138,7 @@
                             }
                             quizHTML += "</form>" ;
 
-                            document.getElementById("quiz").innerHTML += quizHTML;
+                            document.getElementById("quiz").innerHTML = quizHTML;
                             document.getElementById("quiz").innerHTML += "<button id='btn' type='button' onclick='testAnswer()'>Invia</button>";
 
                         }
