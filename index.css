@@ -32,13 +32,13 @@
     width: 100px;
     height: 40px;
     border-radius: 2em;
-    background-color:#00d1d1;
+    background-color:#286aa4;
     text-align:center;
     color: white;
     border-color: transparent;
     transition: all 0.2s;
 }
 btn:hover{
-    background-color: #02e7e7;
+    background-color: #194267;
 }
 }

@@ -26,6 +26,7 @@
 
                         loadQuiz();
                         DisplayPlayerStatus();
+                        //testPost();
                     }
                     else{
                         alert(response.description + "\nredirecting to login page");
@@ -54,6 +55,32 @@
                 }
 
             }
+
+            function testPost(){
+                alert("quack");
+                var param = "correct=" + num_correct + "&wrong=" + num_incorrect;
+
+                var http = new XMLHttpRequest();
+                http.onreadystatechange = function()
+                {
+                    //alert(this.readyState + " - " + this.status );
+                    if(this.readyState == 4 && this.status == 200){
+                        //alert(this.responseText);
+                        response = JSON.parse(this.responseText);
+                        //alert(response.code);
+                        if(response.code==1){
+                            document.location.href="./index.html";
+                        }else{
+                            alert(response.description);
+                        }
+                    }
+                };
+
+                http.open('POST','../poorbook/api/insert_post.php',false);
+                http.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                http.send(param);
+            }
+
             function DisplayPlayerStatus() {
                 document.getElementById("ps_username").innerHTML =
                     "Ciao " + username;
@@ -80,6 +107,11 @@
 
                 if (num_incorrect + num_correct == 10) {
                     alert("hai finito!");
+                    testPost();
+                    num_incorrect = 0;
+                    num_correct = 0;
+                    DisplayPlayerStatus();
+                    loadQuiz();
                 }else{
                 loadQuiz();
                 }
