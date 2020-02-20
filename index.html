@@ -26,7 +26,6 @@
 
                         loadQuiz();
                         DisplayPlayerStatus();
-                        //testPost();
                     }
                     else{
                         alert(response.description + "\nredirecting to login page");
@@ -57,7 +56,6 @@
             }
 
             function testPost(){
-                alert("quack");
                 var param = "correct=" + num_correct + "&wrong=" + num_incorrect;
 
                 var http = new XMLHttpRequest();
@@ -68,7 +66,8 @@
                         //alert(this.responseText);
                         response = JSON.parse(this.responseText);
                         //alert(response.code);
-                        if(response.code==1){
+                        if(response.code==0){
+                            alert(response.description);
                             document.location.href="./index.html";
                         }else{
                             alert(response.description);
@@ -107,20 +106,41 @@
 
                 if (num_incorrect + num_correct == 10) {
                     alert("hai finito!");
-                    testPost();
-                    num_incorrect = 0;
-                    num_correct = 0;
-                    DisplayPlayerStatus();
-                    loadQuiz();
+                    //testPost();
+                    //num_incorrect = 0;
+                    //num_correct = 0;
+                    //DisplayPlayerStatus();
+                    //loadQuiz();
+                    resetQuiz();
                 }else{
-                loadQuiz();
+                    loadQuiz();
                 }
             }
 
+            function resetQuiz(){
+                var end_text;
+                switch(num_correct){
+                    case 10:
+                        end_text = "COMPLIMENTI! <br> Hai fatto 10 risposte giuste su 10! <br> Vorresti condividere il risultato su Poorbook";
+                        break;
+                    case 9:
+                        end_text = "Quasi perfetto! <br> Hai fatto 9 risposte giuste su 10! <br> Vorresti condividere il risultato su Poorbook";
+                        break;
+                    case 8:
+                    case 7:
+                        end_text = "Ben fatto! <br> Vorresti condividere il risultato su Poorbook?";
+                        break;
+                    case 6:
+                        end_text = "Bravo <br> Vorresti condividere il risultato su Poorbook?";
+                        break;
+                    default:
+                        end_text = "Che schifo <br> Se vuoi puoi condividere il risultato su Poorbook, ma io non lo farei";
+                }
+                document.getElementById("quiz").innerHTML = end_text;
+            }
+
             function loadQuiz(){
-
                 
-
                     var xhttp = new XMLHttpRequest();
 
                     xhttp.onreadystatechange = function() {
