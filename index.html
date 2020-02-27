@@ -11,6 +11,9 @@
             var username;
             var num_correct = 0;
             var num_incorrect = 0;
+            var addr = "https://opentdb.com/api.php?amount=1";
+            var cat = "&category=";
+            var diff = "&difficulty=";
 
             function testLogin() {
 
@@ -199,7 +202,7 @@
                         }
                     };
 
-                    xhttp.open("GET", "https://opentdb.com/api.php?amount=1&difficulty=easy", true);
+                    xhttp.open("GET", addr + cat + diff, true);
                     xhttp.send();
                 }
             
