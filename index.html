@@ -26,9 +26,8 @@
                     //alert(response.code);
                     if (response.code == 1) {
                         username = response.username;
-
-                        loadQuiz();
-                        DisplayPlayerStatus();
+                        DisplayPlayerName();
+                        goHome();
                     }
                     else{
                         alert(response.description + "\nredirecting to login page");
@@ -74,6 +73,7 @@
                             document.location.href="./index.html";
                         }else{
                             alert(response.description);
+                            goHome();
                         }
                     }
                 };
@@ -82,17 +82,25 @@
                 http.setRequestHeader('Content-type','application/x-www-form-urlencoded');
                 http.send(param);
             }
+                
+            function DisplayPlayerName(){
+                document.getElementById("ps_username").innerHTML = "Ciao " + username;
+                document.getElementById("header_username").innerHTML = "" + username;
+            }
 
             function DisplayPlayerStatus() {
-                document.getElementById("ps_username").innerHTML =
-                    "Ciao " + username;
-                document.getElementById("ps_correct").innerHTML =
-                    "correct answers:" + num_correct;
-                document.getElementById("ps_incorrect").innerHTML =
-                    "incorrect answers:" + num_incorrect;
-                document.getElementById("header_username").innerHTML =
-                    "" + username;
+                document.getElementById("ps_correct").innerHTML = "correct answers:" + num_correct;
+                document.getElementById("ps_incorrect").innerHTML = "incorrect answers:" + num_incorrect;
             }
+
+            function ClearPlayerStatus(){
+                num_incorrect = 0;
+                num_correct = 0;
+
+                document.getElementById("ps_correct").innerHTML = "";
+                document.getElementById("ps_incorrect").innerHTML = "";
+            }
+
             
             function testAnswer(){
                 var quiz = document.querySelector("input[name = answer]:checked").value;
@@ -109,11 +117,6 @@
 
                 if (num_incorrect + num_correct == 10) {
                     alert("hai finito!");
-                    //testPost();
-                    //num_incorrect = 0;
-                    //num_correct = 0;
-                    //DisplayPlayerStatus();
-                    //loadQuiz();
                     resetQuiz();
                 }else{
                     loadQuiz();
@@ -136,10 +139,64 @@
                     case 6:
                         end_text = "Bravo <br> Vorresti condividere il risultato su Poorbook?";
                         break;
+                    case 5:
+                        end_text = "Potevi fare di meglio! <br> Riprova oppure condividi il tuo risultato su Poorbook"
                     default:
                         end_text = "Che schifo <br> Se vuoi puoi condividere il risultato su Poorbook, ma io non lo farei";
+                        break;
                 }
                 document.getElementById("quiz").innerHTML = end_text;
+                document.getElementById("quiz").innerHTML += "<br><button id='btn' type='button' onclick='goHome()'>Riprova</button>&emsp;";
+                document.getElementById("quiz").innerHTML += "<button id='btn' type='button' onclick='testPost()'>Condividi</button>";
+            }
+
+            function goHome(){
+                ClearPlayerStatus();
+                document.getElementById("quiz").innerHTML = "<h1>Benvenuto su trivia!</h1>" +
+                    "<br><br>" +
+                    "<p>seleziona difficoltà:" +
+                    "<select name='diff' id='diff'>" +
+                        "<option value='' selected='selected'>Any</option>" +
+                        "<option value='easy'>Easy</option>" +
+                        "<option value='medium'>Medium</option>" +
+                        "<option value='hard'>Hard</option>" +
+                    "</select></p><br>" +
+                    "<p>seleziona categoria:" +
+                    "<select name='cat' id='cat'>" +
+                        "<option value='' selected='selected'>Any</option>" +
+                        "<option value='9'>General Knowledge</option>" +
+                        "<option value='10'>Entertainment: Books</option>" +
+                        "<option value='11'>Entertainment: Film</option>" +
+                        "<option value='12'>Entertainment: Music</option>" +
+                        "<option value='13'>Entertainment: Musicals &amp; Theatres</option>" +
+                        "<option value='14'>Entertainment: Television</option>" +
+                        "<option value='15'>Entertainment: Video Games</option>" +
+                        "<option value='16'>Entertainment: Board Games</option>" +
+                        "<option value='17'>Science &amp; Nature</option>" +
+                        "<option value='18'>Science: Computers</option>" +
+                        "<option value='19'>Science: Mathematics</option>" +
+                        "<option value='20'>Mythology</option>" +
+                        "<option value='21'>Sports</option>" +
+                        "<option value='22'>Geography</option>" +
+                        "<option value='23'>History</option>" +
+                        "<option value='24'>Politics</option>" +
+                        "<option value='25'>Art</option>" +
+                        "<option value='26'>Celebrities</option>" +
+                        "<option value='27'>Animals</option>" +
+                        "<option value='28'>Vehicles</option>" +
+                        "<option value='29'>Entertainment: Comics</option>" +
+                        "<option value='30'>Science: Gadgets</option>" +
+                        "<option value='31'>Entertainment: Japanese Anime &amp; Manga</option>" +
+                        "<option value='32'>Entertainment: Cartoon &amp; Animations</option>" +
+                    "</select></p>" +
+                    "<button id='btn' type='button' onclick='startQuiz()'>Inizia!</button>";
+            }
+
+            function startQuiz(){
+                cat += document.getElementById("cat").value;
+                diff += document.getElementById("diff").value;
+                DisplayPlayerStatus();
+                loadQuiz();
             }
 
             function loadQuiz(){
@@ -155,9 +212,7 @@
 
                             var question = quiz.results[0];//estrae la domanda dall'oggetto
 
-                            var quizHTML = "<p id ='question'>Category: " + question.category + "<br>" +
-                                                "<em>" + question.question + "</em>" + 
-                                            "</p>";
+                            var quizHTML = "<p id ='question'>Category: " + question.category + "<br> Difficulty: " + question.difficulty + "<br> <em>" + question.question + "</em> </p>";
 
 
                             if(question.correct_answer == "True" || question.incorrect_answers[0] == "True"){
@@ -233,8 +288,10 @@
 
         <br>
         <div id="ps_username"></div>
-        <div id="ps_correct">0</div>
-        <div id="ps_incorrect">0</div>
-        <div id="quiz">Questo è il testo da cambiare</div>
+        <div id="ps_correct"></div>
+        <div id="ps_incorrect"></div>
+        <div id="quiz">
+            <h1>Benvenuto su trivia!</h1>
+        </div>
     </body>
 </html>
