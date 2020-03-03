@@ -1,10 +1,10 @@
 <?php
-session_start();
+    session_start();
 
-if (array_key_exists("username", $_SESSION)) {
-    header("location: ./index.php");
-    exit;
-}
+    if (array_key_exists("username", $_SESSION)) {
+        header("location: ./index.php");
+        exit;
+    }
 ?>
 
 
@@ -14,7 +14,7 @@ if (array_key_exists("username", $_SESSION)) {
     <meta charset="UTF-8">
     <title>Trivia - Login with Poorbook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="login.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css"/>
     <link rel="icon" href="assets/img/trivia-ico_2.png">
     <script>
         function testLogin()
@@ -48,19 +48,29 @@ if (array_key_exists("username", $_SESSION)) {
     </script>
 </head>
 <body>
-    <header>
-        <h1>TRIVIA!!!</h1>
-    </header>
-    <div>
-        <!--form-->
-            <p>
-            <input type="email" id="username" placeholder="Username">
-            </p><p>
-            <input type="password" id="password" placeholder="Password">
-            </p><p>
-            <button onclick="testLogin()" type="submit">Login</button>
-            </p>
-        <!--/form-->
-    </div>
+    <div class="header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="logo">
+                            <h1><a href="index.html" title="Torna alla home di Trivia">Trivia</a></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <!--form-->
+                <p class="h3">Effettua il login con poorbook</p>
+                <p>
+                <input type="email" id="username" placeholder="Username">
+                </p><p>
+                <input type="password" id="password" placeholder="Password">
+                </p><p>
+                <button onclick="testLogin()" type="submit">Login</button>
+                </p>
+            <!--/form-->
+        </div>
 </body>
 </html>
