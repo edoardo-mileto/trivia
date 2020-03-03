@@ -61,8 +61,8 @@
         </div>
         <br>
         <div>
-            <!--form-->
-                <p class="h3">Effettua il login con poorbook</p>
+            <form action="javascript:testLogin()">
+                <p class="h3">Effettua il login con Poorbook</p>
                 <p>
                 <input type="email" id="username" placeholder="Username">
                 </p><p>
@@ -70,7 +70,7 @@
                 </p><p>
                 <button onclick="testLogin()" type="submit">Login</button>
                 </p>
-            <!--/form-->
+            </form>
         </div>
 </body>
 </html>
