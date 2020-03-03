@@ -12,8 +12,8 @@
             var num_correct = 0;
             var num_incorrect = 0;
             var addr = "https://opentdb.com/api.php?amount=1";
-            var cat = "&category=";
-            var diff = "&difficulty=";
+            var cat = "";
+            var diff = "";
 
             function testLogin() {
 
@@ -134,15 +134,18 @@
                         break;
                     case 8:
                     case 7:
-                        end_text = "Ben fatto! <br> Vorresti condividere il risultato su Poorbook?";
+                        end_text = "Ben fatto! <br> Hai fatto " + num_correct + " risposte giuste su 10! <br> Vorresti condividere il risultato su Poorbook?";
                         break;
                     case 6:
-                        end_text = "Bravo <br> Vorresti condividere il risultato su Poorbook?";
+                        end_text = "Bravo <br> " + num_correct + " risposte corrette su 10. <br> Vorresti condividere il risultato su Poorbook?";
                         break;
                     case 5:
-                        end_text = "Potevi fare di meglio! <br> Riprova oppure condividi il tuo risultato su Poorbook"
+                    case 4:
+                    case 3:
+                        end_text = "Potevi fare di meglio! <br> Riprova oppure condividi il tuo risultato su Poorbook";
+                        break;
                     default:
-                        end_text = "Che schifo <br> Se vuoi puoi condividere il risultato su Poorbook, ma io non lo farei";
+                        end_text = "Che schifo <br> Se vuoi, puoi condividere il risultato su Poorbook, ma io non lo farei";
                         break;
                 }
                 document.getElementById("quiz").innerHTML = end_text;
@@ -193,8 +196,8 @@
             }
 
             function startQuiz(){
-                cat += document.getElementById("cat").value;
-                diff += document.getElementById("diff").value;
+                cat = "&category=" + document.getElementById("cat").value;
+                diff = "&difficulty=" + document.getElementById("diff").value;
                 DisplayPlayerStatus();
                 loadQuiz();
             }
